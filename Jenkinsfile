@@ -11,12 +11,7 @@ pipeline{
 				sh 'mvn -B -DskipTests clean package'
 			}
 		}
-		}
 		stage('Test'){
-			agent{
-				docker.image('mysql:5').withRun('-e "MYSQL_ROOT_PASSWORD=root"') { c ->
-					docker.image('mysql:5').inside("--link ${c.id}:db")
-					docker.image('centos:7').inside("--link ${c.id}:localhost")}
 			steps{
 				sh 'mvn test'
 			}
