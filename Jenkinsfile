@@ -1,6 +1,10 @@
-node {
-    checkout scm
-    docker.image('mysql:5').withRun('-e "MYSQL_ROOT_PASSWORD=root"') { c ->
+pipeline{
+	agent{
+		docker{
+			image 'maven:3-alpine'
+			args '-v /root/.m2:/root/.m2'
+		}
+		docker.image('mysql:5').withRun('-e "MYSQL_ROOT_PASSWORD=root"') { c ->
         docker.image('mysql:5').inside("--link ${c.id}:db") {
           /* Wait until mysql service is up */
         }
@@ -10,14 +14,6 @@ node {
            * available on the host name `db`
            */
         }
-  }
-}
-
-pipeline{
-	agent{
-		docker{
-			image 'maven:3-alpine'
-			args '-v /root/.m2:/root/.m2'
 		}
 	}
 	stages {
