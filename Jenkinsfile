@@ -4,17 +4,6 @@ pipeline{
 			image 'maven:3-alpine'
 			args '-v /root/.m2:/root/.m2'
 		}
-		docker.image('mysql:5').withRun('-e "MYSQL_ROOT_PASSWORD=root"') { c ->
-        docker.image('mysql:5').inside("--link ${c.id}:db") {
-          /* Wait until mysql service is up */
-        }
-        docker.image('centos:7').inside("--link ${c.id}:localhost") {
-          /*
-           * Run some tests which require MySQL, and assume that it is
-           * available on the host name `db`
-           */
-        }
-		}
 	}
 	stages {
 		stage('Build'){
@@ -23,6 +12,10 @@ pipeline{
 			}
 		}
 		stage('Test'){
+			agent{
+				docker.image('mysql:5').withRun('-e "MYSQL_ROOT_PASSWORD=root"') { c ->
+					docker.image('mysql:5').inside("--link ${c.id}:db")
+					docker.image('centos:7').inside("--link ${c.id}:localhost")}
 			steps{
 				sh 'mvn test'
 			}
