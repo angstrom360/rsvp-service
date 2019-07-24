@@ -1,3 +1,7 @@
+node{
+    Class.forName("com.mysql.jdbc.Driver")
+    def sql = Sql.newInstance("jdbc:mysql://mysql:3306/rsvp_test", "root","root", "com.mysql.jdbc.Driver")
+}
 pipeline{
 	agent{
 		docker{
@@ -6,16 +10,18 @@ pipeline{
 		}
 	}
 	stages {
+		stage('SQL TEST'){
+			node{
+				Class.forName("com.mysql.jdbc.Driver")
+				def sql = Sql.newInstance("jdbc:mysql://mysql:3306/rsvp_test", "root","root", "com.mysql.jdbc.Driver")
+			}
+				
 		stage('Build'){
 			steps{
 				sh 'mvn -B -DskipTests clean package'
 			}
 		}
 		stage('Test'){
-		node{
-    Class.forName("com.mysql.jdbc.Driver")
-    def sql = Sql.newInstance("jdbc:mysql://mysql:3306/rsvp_test", "root","root", "com.mysql.jdbc.Driver")
-}
 			steps{
 				sh 'mvn test'
 			}
