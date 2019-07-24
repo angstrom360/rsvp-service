@@ -4,13 +4,12 @@ pipeline{
 			image 'maven:3-alpine'
 			args '-v /root/.m2:/root/.m2'
 		}
+		node{
+			Class.forName("com.mysql.jdbc.Driver")
+			def sql = Sql.newInstance("jdbc:mysql://mysql:3306/rsvp_test", "root","root", "com.mysql.jdbc.Driver")
+		}
 	}
 	stages {
-		stage('SQL TEST'){
-			node{
-				Class.forName("com.mysql.jdbc.Driver")
-				def sql = Sql.newInstance("jdbc:mysql://mysql:3306/rsvp_test", "root","root", "com.mysql.jdbc.Driver")
-			}
 				
 		stage('Build'){
 			steps{
@@ -31,7 +30,7 @@ pipeline{
 			steps{
 				sh './jenkins/scripts/deliver.sh'
 	}		}	
-		}		
+				
 		
 	}
 }
