@@ -2,7 +2,7 @@ pipeline{
 	agent{
 		docker{
 			image 'maven:3-alpine'
-			args '-v /d/JAVA_BOOTCAMP/JENKINS/:/d/JAVA_BOOTCAMP/JENKINS/'
+			args '-v /root/.m2:/root/.m2'
 		}
 	}
 	stages {
@@ -26,5 +26,6 @@ pipeline{
 				sh './jenkins/scripts/deliver.sh'
 			}	
 		}		
+		
 	}
 }
