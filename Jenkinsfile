@@ -1,3 +1,4 @@
+import groovy.sql.Sql
 pipeline{
 	agent{
 		docker{
