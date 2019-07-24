@@ -2,7 +2,7 @@ pipeline{
 	agent{
 		docker{
 			image 'maven:3-alpine'
-			args '-v /d/JAVA_BOOTCAMP/JENKINS/:/root/.m2'
+			args '-v /d/JAVA_BOOTCAMP/JENKINS/:/d/JAVA_BOOTCAMP/JENKINS/'
 		}
 	}
 	stages {
