@@ -15,7 +15,7 @@ pipeline{
 		stage('Test'){
 			steps{
 				Class.forName("com.mysql.jdbc.Driver")
-				def sql = Sql.newInstance("jdbc:mysql://mysql:3306/rsvp_test", "root","root", "com.mysql
+				def sql = Sql.newInstance("jdbc:mysql://mysql:3306/rsvp_test", "root","root", "com.mysql.jdbc.Driver")
 				sh 'mvn test'
 			}
 			post{
