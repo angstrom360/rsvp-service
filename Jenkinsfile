@@ -1,7 +1,3 @@
-node{
-    Class.forName("com.mysql.jdbc.Driver")
-    def sql = Sql.newInstance("jdbc:mysql://mysql:3306/rsvp_test", "root","root", "com.mysql.jdbc.Driver")
-}
 pipeline{
 	agent{
 		docker{
@@ -34,7 +30,7 @@ pipeline{
 		stage('Deliever'){
 			steps{
 				sh './jenkins/scripts/deliver.sh'
-			}	
+	}		}	
 		}		
 		
 	}
